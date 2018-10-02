@@ -16,11 +16,11 @@
               [java.time.format
                DateTimeFormatter])))
 
-(def iso-time
+(def iso-local-time
   #?(:clj (DateTimeFormatter/ofPattern "HH:mm:ss.SSS"))
   #?(:cljs (tf/formatter "HH:mm:ss.SSS")))
 
-(def iso-date
+(def iso-local-date
   #?(:clj (DateTimeFormatter/ofPattern "yyyy-MM-dd"))
   #?(:cljs (tf/formatter "yyyy-MM-dd")))
 
@@ -35,8 +35,8 @@
 #?(:cljs
    (def time-deserialization-handlers
      {:handlers
-      {"LocalTime"     (transit/read-handler #(tf/parse iso-time %))
-       "LocalDate"     (transit/read-handler #(tf/parse iso-date %))
+      {"LocalTime"     (transit/read-handler #(tf/parse iso-local-time %))
+       "LocalDate"     (transit/read-handler #(tf/parse iso-local-date %))
        "LocalDateTime" (transit/read-handler #(tf/parse iso-local-date-time %))
        "ZonedDateTime" (transit/read-handler #(tf/parse iso-zoned-date-time %))}}))
 
@@ -45,7 +45,7 @@
      {:handlers
       {goog.date.Date        (transit/write-handler
                                (constantly "LocalDate")
-                               #(tf/unparse iso-date %))
+                               #(tf/unparse iso-local-date %))
        goog.date.DateTime    (transit/write-handler
                                (constantly "LocalDateTime")
                                #(tf/unparse iso-local-date-time %))
@@ -56,8 +56,8 @@
 #?(:clj
    (def time-deserialization-handlers
      {:handlers
-      {"LocalTime"     (transit/read-handler #(java.time.LocalDate/parse % iso-time))
-       "LocalDate"     (transit/read-handler #(java.time.LocalDate/parse % iso-date))
+      {"LocalTime"     (transit/read-handler #(java.time.LocalDate/parse % iso-local-time))
+       "LocalDate"     (transit/read-handler #(java.time.LocalDate/parse % iso-local-date))
        "LocalDateTime" (transit/read-handler #(java.time.LocalDate/parse % iso-local-date-time))
        "ZonedDateTime" (transit/read-handler #(java.time.LocalDate/parse % iso-zoned-date-time))}}))
 
@@ -66,10 +66,10 @@
      {:handlers
       {java.time.LocalTime     (transit/write-handler
                                  (constantly "LocalTime")
-                                 #(.format % iso-time))
+                                 #(.format % iso-local-time))
        java.time.LocalDate     (transit/write-handler
                                  (constantly "LocalDate")
-                                 #(.format % iso-date))
+                                 #(.format % iso-local-date))
        java.time.LocalDateTime (transit/write-handler
                                  (constantly "LocalDateTime")
                                  #(.format % iso-local-date-time))
