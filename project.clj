@@ -1,4 +1,4 @@
-(defproject luminus-transit "0.1.2"
+(defproject luminus-transit "0.1.3"
   :description "extended transit types"
   :url "https://github.com/luminus-framework/luminus-transit"
   :license {:name "Eclipse Public License"
