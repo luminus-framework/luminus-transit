@@ -56,10 +56,10 @@
 #?(:clj
    (def time-deserialization-handlers
      {:handlers
-      {"LocalTime"     (transit/read-handler #(java.time.LocalDate/parse % iso-local-time))
+      {"LocalTime"     (transit/read-handler #(java.time.LocalTime/parse % iso-local-time))
        "LocalDate"     (transit/read-handler #(java.time.LocalDate/parse % iso-local-date))
-       "LocalDateTime" (transit/read-handler #(java.time.LocalDate/parse % iso-local-date-time))
-       "ZonedDateTime" (transit/read-handler #(java.time.LocalDate/parse % iso-zoned-date-time))}}))
+       "LocalDateTime" (transit/read-handler #(java.time.LocalDateTime/parse % iso-local-date-time))
+       "ZonedDateTime" (transit/read-handler #(java.time.ZonedDateTime/parse % iso-zoned-date-time))}}))
 
 #?(:clj
    (def time-serialization-handlers
