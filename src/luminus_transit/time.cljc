@@ -35,9 +35,9 @@
 #?(:cljs
    (def time-deserialization-handlers
      {:handlers
-      {"LocalTime"     (transit/read-handler #(tf/parse iso-local-time %))
-       "LocalDate"     (transit/read-handler #(tf/parse iso-local-date %))
-       "LocalDateTime" (transit/read-handler #(tf/parse iso-local-date-time %))
+      {"LocalTime"     (transit/read-handler #(tf/parse-local iso-local-time %))
+       "LocalDate"     (transit/read-handler #(tf/parse-local-date iso-local-date %))
+       "LocalDateTime" (transit/read-handler #(tf/parse-local iso-local-date-time %))
        "ZonedDateTime" (transit/read-handler #(tf/parse iso-zoned-date-time %))}}))
 
 #?(:cljs
