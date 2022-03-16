@@ -66,13 +66,13 @@
      {:handlers
       {java.time.LocalTime     (transit/write-handler
                                  (constantly "LocalTime")
-                                 #(.format % iso-local-time))
+                                 #(.format ^LocalTime % iso-local-time))
        java.time.LocalDate     (transit/write-handler
                                  (constantly "LocalDate")
-                                 #(.format % iso-local-date))
+                                 #(.format ^LocalDate % iso-local-date))
        java.time.LocalDateTime (transit/write-handler
                                  (constantly "LocalDateTime")
-                                 #(.format % iso-local-date-time))
+                                 #(.format ^LocalDateTime % iso-local-date-time))
        java.time.ZonedDateTime (transit/write-handler
                                  (constantly "ZonedDateTime")
-                                 #(.format % iso-zoned-date-time))}}))
+                                 #(.format ^ZonedDateTime % iso-zoned-date-time))}}))
