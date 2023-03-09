@@ -12,7 +12,8 @@
                LocalTime
                LocalDate
                LocalDateTime
-               ZonedDateTime]
+               ZonedDateTime
+               YearMonth]
               [java.time.format
                DateTimeFormatter])))
 
@@ -32,13 +33,18 @@
   #?(:clj (DateTimeFormatter/ofPattern "yyyy-MM-dd'T'HH:mm:ss.SSSXX"))
   #?(:cljs (tf/formatter "yyyy-MM-dd'T'HH:mm:ss.SSSZ")))
 
+(def iso-year-month
+  #?(:clj (DateTimeFormatter/ofPattern "yyyy-MM"))
+  #?(:cljs (tf/formatter "yyyy-MM")))
+
 #?(:cljs
    (def time-deserialization-handlers
      {:handlers
       {"LocalTime"     (transit/read-handler #(tf/parse-local iso-local-time %))
        "LocalDate"     (transit/read-handler #(tf/parse-local-date iso-local-date %))
        "LocalDateTime" (transit/read-handler #(tf/parse-local iso-local-date-time %))
-       "ZonedDateTime" (transit/read-handler #(tf/parse iso-zoned-date-time %))}}))
+       "ZonedDateTime" (transit/read-handler #(tf/parse iso-zoned-date-time %))
+       "YearMonth"     (transit/read-handler #(tf/parse iso-year-month %))}}))
 
 #?(:cljs
    (def time-serialization-handlers
@@ -59,7 +65,8 @@
       {"LocalTime"     (transit/read-handler #(java.time.LocalTime/parse % iso-local-time))
        "LocalDate"     (transit/read-handler #(java.time.LocalDate/parse % iso-local-date))
        "LocalDateTime" (transit/read-handler #(java.time.LocalDateTime/parse % iso-local-date-time))
-       "ZonedDateTime" (transit/read-handler #(java.time.ZonedDateTime/parse % iso-zoned-date-time))}}))
+       "ZonedDateTime" (transit/read-handler #(java.time.ZonedDateTime/parse % iso-zoned-date-time))
+       "YearMonth"     (transit/read-handler #(java.time.YearMonth/parse % iso-year-month))}}))
 
 #?(:clj
    (def time-serialization-handlers
@@ -75,4 +82,7 @@
                                  #(.format ^LocalDateTime % iso-local-date-time))
        java.time.ZonedDateTime (transit/write-handler
                                  (constantly "ZonedDateTime")
-                                 #(.format ^ZonedDateTime % iso-zoned-date-time))}}))
+                                 #(.format ^ZonedDateTime % iso-zoned-date-time))
+       java.time.YearMonth     (transit/write-handler
+                                 (constantly "YearMonth")
+                                 #(.format ^YearMonth % iso-year-month))}}))
